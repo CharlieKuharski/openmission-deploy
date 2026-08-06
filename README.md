@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/openmission-sugar-glider.png" alt="OpenMission Sugar Glider" width="180">
+  <img src="assets/sg_github.png" alt="OpenMission Sugar Glider" width="180">
 </p>
 
 <h1 align="center">OpenMission</h1>
