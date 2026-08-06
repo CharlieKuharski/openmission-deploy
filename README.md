@@ -4,9 +4,10 @@
 
 <h1 align="center">OpenMission</h1>
 
-<h3 align="center">Turn an idea into a working, browser-tested application.</h3>
+<h3 align="center">Built. Tested. Proven.</h3>
 
 <p align="center">
+  <a href="#why-openmission">Why OpenMission?</a> &bull;
   <a href="#-get-started">Get Started</a> &bull;
   <a href="#-how-it-works">How It Works</a> &bull;
   <a href="#-requirements">Requirements</a> &bull;
@@ -22,18 +23,34 @@
   <a href="LICENSE"><img alt="Apache License 2.0" src="https://img.shields.io/badge/deployment-Apache--2.0-d22128"></a>
 </p>
 
-Bring the idea. OpenMission turns it into a Story, acceptance criteria, a
-generated application, browser tests, and usable source on your machine.
-
-OpenMission provides the orchestration between an application idea and a
-working result. It uses your local models and Docker environment, validates
-each acceptance criterion in a real browser, and keeps the generated project
-and evidence under your control.
+<p align="center">
+  <strong>Don't just generate an app. Prove it works.</strong><br>
+  OpenMission turns your idea into an approved product Story, builds the
+  application with local AI, and validates each acceptance criterion in a real
+  browser. You receive the working application, its source, its tests, and the
+  evidence behind the result.
+</p>
 
 > **Early access:** This is the public, source-free Docker deployment for
 > OpenMission. It contains no application source and performs no local image
 > builds. Public application source and OpenMission Cloud are planned for
 > future releases.
+
+## Why OpenMission?
+
+| Typical AI code generation | OpenMission |
+| --- | --- |
+| Starts coding from a prompt | Establishes a reviewable Story and acceptance criteria |
+| Produces code and declares completion | Runs controller-owned browser validation |
+| Leaves the user to determine what works | Records `PASS`, `FAIL`, and evidence by criterion |
+| Delivers an opaque result | Preserves the application source, tests, screenshots, and evidence |
+| Depends on a hosted model workflow | Runs with user-selected local Ollama models |
+
+- **Acceptance-led:** intent becomes a product contract before implementation.
+- **Browser-proven:** requirements are exercised through the visible interface.
+- **Locally owned:** generated source, tests, and evidence remain on your machine.
+- **Model-flexible:** Thinking and Coding models can be selected globally or per
+  project.
 
 ## ⚡ Get Started
 
