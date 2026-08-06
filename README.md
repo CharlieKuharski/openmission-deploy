@@ -24,11 +24,10 @@
 </p>
 
 <p align="center">
-  <strong>Don't just generate an app. Prove it works.</strong><br>
-  OpenMission turns your idea into an approved product Story, builds the
-  application with local AI, and validates each acceptance criterion in a real
-  browser. You receive the working application, its source, its tests, and the
-  evidence behind the result.
+  <strong>AI coding tools expect an engineer. OpenMission starts with your idea.</strong><br>
+  OpenMission uses open models on your hardware to plan, build, and
+  browser-test the application.<br>
+  No metered API tokens. No software-delivery process to master.
 </p>
 
 > **Early access:** This is the public, source-free Docker deployment for
