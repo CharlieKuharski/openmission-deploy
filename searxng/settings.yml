@@ -1,0 +1,11 @@
+use_default_settings: true
+
+search:
+  formats:
+    - html
+    - json
+
+server:
+  secret_key: "openmission-local-search-dev-key"
+  limiter: false
+  image_proxy: false

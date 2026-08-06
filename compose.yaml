@@ -1,0 +1,133 @@
+name: openmission
+
+services:
+  api:
+    image: ${DOCKERHUB_NAMESPACE:-charliekuharski}/openmission:${OPENMISSION_VERSION:?OPENMISSION_VERSION is required}
+    ports:
+      - "127.0.0.1:${OPENMISSION_API_PORT:-18080}:8080"
+    volumes:
+      - ${OPENMISSION_HOST_WORKSPACE_ROOT:-${PWD}/workspace}:/workspace
+      - ${OPENMISSION_DATA_ROOT:-${PWD}/data}:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      OPENMISSION_API_ADDR: ":8080"
+      OPENMISSION_DB_PATH: /data/openmission.db
+      OPENMISSION_DB_RESET_ON_START: "false"
+      OPENMISSION_GOAL_RUNNER: ${OPENMISSION_GOAL_RUNNER:-hermes}
+      OPENMISSION_HERMES_LOOP_LOG_INTERVAL: ${OPENMISSION_HERMES_LOOP_LOG_INTERVAL:-45s}
+      OPENMISSION_GOAL_GATEWAY_SERVICE: hermes-gateway
+      OPENMISSION_OLLAMA_BASE_URL: ${OPENMISSION_OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
+      OPENMISSION_OLLAMA_MODEL: ${OPENMISSION_OLLAMA_MODEL:-qwen3-coder:30b}
+      OPENMISSION_CHAT_MODEL: ${OPENMISSION_CHAT_MODEL:-hermes3:8b}
+      OPENMISSION_CODE_GEN_MODEL: ${OPENMISSION_CODE_GEN_MODEL:-qwen3-coder:30b}
+      OPENMISSION_SEARCH_BASE_URL: http://searxng:8080
+      OPENMISSION_BROWSERLESS_URL: http://browserless:3000
+      OPENMISSION_BROWSERLESS_TOKEN: ${BROWSERLESS_TOKEN:?BROWSERLESS_TOKEN is required}
+      OPENMISSION_GOAL_VALIDATION_RETRIES: ${OPENMISSION_GOAL_VALIDATION_RETRIES:-5}
+      OPENMISSION_ACCEPTANCE_CONTROLLER_CYCLES: ${OPENMISSION_ACCEPTANCE_CONTROLLER_CYCLES:-3}
+      OPENMISSION_HOST_WORKSPACE_ROOT: ${OPENMISSION_HOST_WORKSPACE_ROOT:-${PWD}/workspace}
+      OPENMISSION_WORKER_GID: ${HERMES_GID:-10000}
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-openmission}
+      HERMES_GATEWAY_URL: http://hermes-gateway:8642
+      HERMES_API_KEY: ${HERMES_API_KEY:?HERMES_API_KEY is required}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      hermes-gateway:
+        condition: service_healthy
+      searxng:
+        condition: service_started
+      browserless:
+        condition: service_started
+    restart: unless-stopped
+
+  ui:
+    image: ${DOCKERHUB_NAMESPACE:-charliekuharski}/openmission-ui:${OPENMISSION_VERSION:?OPENMISSION_VERSION is required}
+    ports:
+      - "127.0.0.1:${OPENMISSION_UI_PORT:-15173}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  hermes-gateway:
+    image: ${DOCKERHUB_NAMESPACE:-charliekuharski}/openmission-hermes:${OPENMISSION_VERSION:?OPENMISSION_VERSION is required}
+    ports:
+      - "127.0.0.1:${HERMES_GATEWAY_PORT:-18642}:8642"
+      - "127.0.0.1:${HERMES_DASHBOARD_PORT:-19119}:9119"
+    volumes:
+      - openmission-hermes-data:/opt/data
+      - ${OPENMISSION_HOST_WORKSPACE_ROOT:-${PWD}/workspace}:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      HERMES_UID: ${HERMES_UID:-10000}
+      HERMES_GID: ${HERMES_GID:-10000}
+      HERMES_DASHBOARD: "1"
+      HERMES_DASHBOARD_HOST: 0.0.0.0
+      HERMES_DASHBOARD_PORT: "9119"
+      HERMES_DASHBOARD_BASIC_AUTH_USERNAME: ${HERMES_DASHBOARD_BASIC_AUTH_USERNAME:-openmission}
+      HERMES_DASHBOARD_BASIC_AUTH_PASSWORD: ${HERMES_DASHBOARD_BASIC_AUTH_PASSWORD:?HERMES_DASHBOARD_BASIC_AUTH_PASSWORD is required}
+      API_SERVER_ENABLED: "true"
+      API_SERVER_HOST: 0.0.0.0
+      API_SERVER_KEY: ${HERMES_API_KEY:?HERMES_API_KEY is required}
+      HERMES_WRITE_SAFE_ROOT: /workspace
+      HERMES_TUI_TOOLSETS: file,terminal
+      HERMES_ACCEPT_HOOKS: "1"
+      OPENMISSION_REQUIRE_TERMINAL_GUARD: "1"
+      OPENMISSION_HOST_WORKSPACE_ROOT: ${OPENMISSION_HOST_WORKSPACE_ROOT:-${PWD}/workspace}
+      HERMES_OLLAMA_API_KEY: ${OPENMISSION_OLLAMA_API_KEY:-ollama}
+      OPENAI_API_KEY: ${OPENMISSION_OLLAMA_API_KEY:-ollama}
+      GATEWAY_ALLOW_ALL_USERS: "true"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      playwright-mcp:
+        condition: service_started
+    command: ["gateway", "run"]
+    healthcheck:
+      test:
+        - CMD
+        - /opt/hermes/.venv/bin/python
+        - -c
+        - "import socket; s=socket.create_connection(('127.0.0.1',8642),2); s.close()"
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 18
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: "2.0"
+    restart: unless-stopped
+
+  playwright-mcp:
+    image: mcr.microsoft.com/playwright/mcp@sha256:3d871c22ea2d4cca0966e2cfb1860e1cb03eb7353725a3d6cffd133296fb04eb
+    command:
+      - --headless
+      - --browser
+      - chromium
+      - --no-sandbox
+      - --port
+      - "8931"
+      - --host
+      - 0.0.0.0
+      - --allowed-hosts
+      - "*"
+    restart: unless-stopped
+
+  searxng:
+    image: docker.io/searxng/searxng@sha256:ec536bcd1e83577aad4cc07f7ecb9a30858a9a905d2d57c8796abc83f872a036
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+    restart: unless-stopped
+
+  browserless:
+    image: ghcr.io/browserless/chromium@sha256:07f6561d607b80312cc9b2500e98e40cf1eb0276fb647984fa074c96b9dd41dc
+    environment:
+      TOKEN: ${BROWSERLESS_TOKEN:?BROWSERLESS_TOKEN is required}
+      CONNECTION_TIMEOUT: "60000"
+    restart: unless-stopped
+
+volumes:
+  openmission-hermes-data:

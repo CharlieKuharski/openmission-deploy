@@ -1,0 +1,6 @@
+.DS_Store
+.env
+data/
+workspace/
+compose.override.yaml
+compose.*.local.yaml
