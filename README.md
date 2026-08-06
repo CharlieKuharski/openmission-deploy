@@ -1,41 +1,55 @@
-# OpenMission
+<p align="center">
+  <img src="assets/openmission-sugar-glider.png" alt="OpenMission Sugar Glider" width="180">
+</p>
 
-OpenMission turns a plain-language application idea into a working, tested
-application. It writes the Story and acceptance criteria, generates the
-application, validates each criterion in a browser, and preserves the source
-and test evidence on your machine.
+<h1 align="center">OpenMission</h1>
 
-This repository is the public, source-free Docker deployment for OpenMission.
-It contains no application source and performs no local image builds.
+<h3 align="center">Turn an idea into a working, browser-tested application.</h3>
 
-> **Early access:** The OpenMission application source repository is not public
-> yet. The container distribution and these deployment files are available
-> under the [Apache License 2.0](LICENSE). OpenMission Cloud and public source
-> availability are planned for future releases.
+<p align="center">
+  <a href="#-get-started">Get Started</a> &bull;
+  <a href="#-how-it-works">How It Works</a> &bull;
+  <a href="#-requirements">Requirements</a> &bull;
+  <a href="#-data-and-operations">Operations</a> &bull;
+  <a href="#-troubleshooting">Troubleshooting</a>
+</p>
 
-## Requirements
+<p align="center">
+  <img alt="Early Access" src="https://img.shields.io/badge/status-early%20access-f59e0b">
+  <img alt="Docker Compose" src="https://img.shields.io/badge/runtime-Docker%20Compose-2496ed">
+  <img alt="macOS validated" src="https://img.shields.io/badge/macOS-validated-34c759">
+  <img alt="Linux AMD64 and ARM64" src="https://img.shields.io/badge/Linux-AMD64%20%7C%20ARM64-fcc624">
+  <a href="LICENSE"><img alt="Apache License 2.0" src="https://img.shields.io/badge/deployment-Apache--2.0-d22128"></a>
+</p>
 
-- [Install Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
-- [Install Ollama](https://ollama.com/download)
-- macOS with Docker Desktop, including Apple Silicon; or Linux AMD64/ARM64
-- Windows and WSL2 have not yet been validated
+Bring the idea. OpenMission turns it into a Story, acceptance criteria, a
+generated application, browser tests, and usable source on your machine.
 
-OpenMission runs Ollama directly on the host so local models can use the host's
-GPU acceleration. Install the default models before starting, or pull and
-select models from OpenMission's first-run Utility screen:
+OpenMission provides the orchestration between an application idea and a
+working result. It uses your local models and Docker environment, validates
+each acceptance criterion in a real browser, and keeps the generated project
+and evidence under your control.
+
+> **Early access:** This is the public, source-free Docker deployment for
+> OpenMission. It contains no application source and performs no local image
+> builds. Public application source and OpenMission Cloud are planned for
+> future releases.
+
+## ⚡ Get Started
+
+Install these prerequisites first:
+
+- [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
+- [Ollama](https://ollama.com/download)
+
+Pull the default local models:
 
 ```bash
 ollama pull hermes3:8b
 ollama pull qwen3-coder:30b
 ```
 
-The 30B coding model needs substantial memory. A practical reference system is
-an Apple M4 Pro with 48 GB unified memory and a 1 TB SSD. Smaller models may be
-selected from the Utility screen on machines with less memory.
-
-## Install
-
-Clone the immutable deployment release:
+Clone the immutable RC8 deployment and start OpenMission:
 
 ```bash
 git clone --branch v0.1.0-rc.8 --depth 1 \
@@ -47,24 +61,75 @@ docker compose --env-file .env pull
 docker compose --env-file .env up -d --wait
 ```
 
-Open [http://127.0.0.1:15173](http://127.0.0.1:15173). On first startup,
-OpenMission opens the Utility screen so you can verify Ollama, pull models, and
-choose the global Thinking and Coding defaults.
+Open [http://127.0.0.1:15173](http://127.0.0.1:15173).
 
-Compose pulls the complete configured stack, including:
+On first startup, OpenMission opens the Utility screen so you can verify the
+Ollama connection, pull other models by name, and choose the global Thinking
+and Coding defaults. Compose pulls and starts the complete configured stack;
+no OpenMission source checkout or local image build is required.
+
+## ✨ How It Works
+
+```text
+Describe your idea
+→ review the Story
+→ approve the acceptance criteria
+→ watch OpenMission build and test
+→ launch your application
+```
+
+OpenMission handles the delivery loop:
+
+- **Story and acceptance criteria:** translates the prompt into a reviewable
+  product contract before coding begins.
+- **Application generation:** produces a runnable application and gives you
+  its source.
+- **Browser validation:** tests each acceptance criterion through Playwright
+  and records the result.
+- **Project evidence:** preserves generated tests, screenshots, and validation
+  evidence with the project.
+- **Local models:** uses Ollama on your machine for Thinking and Coding work.
+
+The Compose stack pulls these OpenMission images:
 
 - [OpenMission API](https://hub.docker.com/r/charliekuharski/openmission)
 - [OpenMission UI](https://hub.docker.com/r/charliekuharski/openmission-ui)
 - [OpenMission Hermes](https://hub.docker.com/r/charliekuharski/openmission-hermes)
-- Browserless, Playwright MCP, and SearXNG
 
-No OpenMission source checkout is required.
+Browserless, Playwright MCP, and SearXNG are included as supporting services.
 
-## Data and Operations
+## 🖥️ Requirements
 
-Projects, generated application source, tests, and evidence are stored in
-`./workspace`. OpenMission's SQLite database is stored in `./data`. The Hermes
-runtime also uses the Compose-managed `openmission-hermes-data` volume.
+| Platform | Status |
+| --- | --- |
+| macOS on Apple Silicon with Docker Desktop | Validated |
+| Linux AMD64 with Docker Engine and Compose | Validated |
+| Linux ARM64 | Published images |
+| Windows and WSL2 | **Validation pending** |
+
+OpenMission runs Ollama directly on the host so local models can use the host's
+GPU acceleration. The 30B coding model needs substantial memory. A practical
+reference system is:
+
+```text
+Mac with Apple M4 Pro
+48 GB unified memory
+1 TB SSD
+Docker Desktop
+Ollama running on macOS
+```
+
+Machines with less memory can use smaller models selected from the Utility
+screen. Model size affects generation quality, speed, and available memory for
+Docker builds and browser validation.
+
+## 💾 Data and Operations
+
+OpenMission keeps its primary data beside the deployment:
+
+- `./workspace` contains generated applications, source, tests, and evidence.
+- `./data` contains the OpenMission SQLite database.
+- `openmission-hermes-data` is a Compose-managed Hermes runtime volume.
 
 Check service health:
 
@@ -79,7 +144,7 @@ Restart without deleting data:
 docker compose --env-file .env restart
 ```
 
-Stop OpenMission while preserving projects, SQLite, and the Hermes volume:
+Stop OpenMission while preserving data:
 
 ```bash
 docker compose --env-file .env down
@@ -95,7 +160,7 @@ Do not use `docker compose down --volumes` unless you intend to remove the
 Hermes runtime volume. Do not delete `workspace` or `data` unless you intend to
 remove generated projects or OpenMission state.
 
-## Update
+### Update
 
 Deployment releases are immutable and match the Docker image version. To move
 to a newer tested release:
@@ -111,10 +176,10 @@ docker compose --env-file .env pull
 docker compose --env-file .env up -d --wait
 ```
 
-Set `NEW_VERSION` to the release you are installing. Review its release notes
-before updating.
+Set `NEW_VERSION` to the release you are installing and review its release
+notes before updating.
 
-## Security
+## 🔒 Security
 
 All published ports bind to `127.0.0.1` by default. The values supplied in
 `.env.example` are local-only defaults. Replace every value ending in
@@ -130,7 +195,7 @@ build and validate generated applications. Docker socket access is equivalent
 to host-level administrative control. Run OpenMission only on a machine and
 with container images you trust.
 
-## Troubleshooting
+## 🛠️ Troubleshooting
 
 Confirm Ollama is running and reachable on the host:
 
@@ -148,3 +213,21 @@ docker compose --env-file .env logs --tail 100 api ui hermes-gateway
 
 On macOS, keep this repository under a directory shared with Docker Desktop so
 generated project bind mounts are available to Docker.
+
+## 🚀 What's Next
+
+**OpenMission Cloud is coming.** The managed version will be for users who want
+OpenMission without operating Docker, Ollama, models, or local infrastructure.
+
+Public availability of the OpenMission application source is also planned for
+a future release. This deployment repository will continue to provide tested,
+versioned Compose configurations for published OpenMission images.
+
+## License and Brand
+
+The OpenMission container distribution and deployment materials are available
+under the [Apache License 2.0](LICENSE). The OpenMission name, logo, and
+OpenMission Sugar Glider artwork are excluded from that license and remain
+reserved brand assets. Truthful references such as "runs OpenMission" or
+"compatible with OpenMission" are permitted when they do not imply endorsement
+or official status.
