@@ -51,7 +51,12 @@
 > planned for future releases.
 
 ## Why OpenMission?
+<p align="center">
+  <strong>You define what should be built. OpenMission takes it from idea to validated application.</strong>
+</p>
 
+Each project includes the generated application source, acceptance tests,
+screenshots, and validation evidence.
 ```mermaid
 flowchart LR
     A["💡 Idea"] --> B["📋 Story"]
@@ -60,13 +65,6 @@ flowchart LR
     D --> E["🌐 Browser Test"]
     E --> F["🚀 Team-Ready App"]
 ```
-
-<p align="center">
-  <strong>You define what should be built. OpenMission takes it from idea to validated application.</strong>
-</p>
-
-Each project includes the generated application source, acceptance tests,
-screenshots, and validation evidence.
 
 ## ⚡ Get Started
 
