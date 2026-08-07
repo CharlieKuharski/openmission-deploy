@@ -85,8 +85,7 @@ ollama pull qwen3-coder:30b
 Clone the immutable RC8 deployment and start OpenMission:
 
 ```bash
-git clone --branch v0.1.0-rc.8 --depth 1 \
-  https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
