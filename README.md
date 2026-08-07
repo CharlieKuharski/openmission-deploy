@@ -24,10 +24,14 @@
 </p>
 
 <p align="center">
-  <strong>AI coding tools expect an engineer. OpenMission starts with your idea.</strong><br>
-  OpenMission uses open models on your hardware to plan, build, and
-  browser-test the application.<br>
-  No metered API tokens. No software-delivery process to master.
+  <strong>AI coding tools expect an engineer. OpenMission starts with your idea.</strong>
+</p>
+
+<p align="center">
+  ✅ <strong>Built for project managers</strong> — You focus on the business. OpenMission handles the engineering.<br>
+  ✅ <strong>Development-ready out of the gate</strong> — Give your team working, tested applications they can build on.<br>
+  ✅ <strong>Skip expensive hosted models</strong> — Run open models on your own hardware.<br>
+  ✅ <strong>No metered token costs</strong> — Your hardware is the cost.
 </p>
 
 > **Early access:** This is the public, source-free Docker deployment for
@@ -37,26 +41,26 @@
 
 ## Why OpenMission?
 
-| Typical AI code generation | OpenMission |
-| --- | --- |
-| Starts coding from a prompt | Establishes a reviewable Story and acceptance criteria |
-| Produces code and declares completion | Runs controller-owned browser validation |
-| Leaves the user to determine what works | Records `PASS`, `FAIL`, and evidence by criterion |
-| Delivers an opaque result | Preserves the application source, tests, screenshots, and evidence |
-| Depends on a hosted model workflow | Runs with user-selected local Ollama models |
+| Typical AI code generation              | OpenMission                                                        |
+| --------------------------------------- | ------------------------------------------------------------------ |
+| Starts coding from a prompt             | Establishes a reviewable Story and acceptance criteria             |
+| Produces code and declares completion   | Runs controller-owned browser validation                           |
+| Leaves the user to determine what works | Records `PASS`, `FAIL`, and evidence by criterion                  |
+| Delivers an opaque result               | Preserves the application source, tests, screenshots, and evidence |
+| Depends on a hosted model workflow      | Runs with user-selected local Ollama models                        |
 
-- **Acceptance-led:** intent becomes a product contract before implementation.
-- **Browser-proven:** requirements are exercised through the visible interface.
-- **Locally owned:** generated source, tests, and evidence remain on your machine.
-- **Model-flexible:** Thinking and Coding models can be selected globally or per
+* **Acceptance-led:** intent becomes a product contract before implementation.
+* **Browser-proven:** requirements are exercised through the visible interface.
+* **Locally owned:** generated source, tests, and evidence remain on your machine.
+* **Model-flexible:** Thinking and Coding models can be selected globally or per
   project.
 
 ## ⚡ Get Started
 
 Install these prerequisites first:
 
-- [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
-- [Ollama](https://ollama.com/download)
+* [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
+* [Ollama](https://ollama.com/download)
 
 Pull the default local models:
 
@@ -77,7 +81,7 @@ docker compose --env-file .env pull
 docker compose --env-file .env up -d --wait
 ```
 
-Open [http://127.0.0.1:15173](http://127.0.0.1:15173).
+Open http://127.0.0.1:15173.
 
 On first startup, OpenMission opens the Utility screen so you can verify the
 Ollama connection, pull other models by name, and choose the global Thinking
@@ -96,32 +100,32 @@ Describe your idea
 
 OpenMission handles the delivery loop:
 
-- **Story and acceptance criteria:** translates the prompt into a reviewable
+* **Story and acceptance criteria:** translates the prompt into a reviewable
   product contract before coding begins.
-- **Application generation:** produces a runnable application and gives you
+* **Application generation:** produces a runnable application and gives you
   its source.
-- **Browser validation:** tests each acceptance criterion through Playwright
+* **Browser validation:** tests each acceptance criterion through Playwright
   and records the result.
-- **Project evidence:** preserves generated tests, screenshots, and validation
+* **Project evidence:** preserves generated tests, screenshots, and validation
   evidence with the project.
-- **Local models:** uses Ollama on your machine for Thinking and Coding work.
+* **Local models:** uses Ollama on your machine for Thinking and Coding work.
 
 The Compose stack pulls these OpenMission images:
 
-- [OpenMission API](https://hub.docker.com/r/charliekuharski/openmission)
-- [OpenMission UI](https://hub.docker.com/r/charliekuharski/openmission-ui)
-- [OpenMission Hermes](https://hub.docker.com/r/charliekuharski/openmission-hermes)
+* [OpenMission API](https://hub.docker.com/r/charliekuharski/openmission)
+* [OpenMission UI](https://hub.docker.com/r/charliekuharski/openmission-ui)
+* [OpenMission Hermes](https://hub.docker.com/r/charliekuharski/openmission-hermes)
 
 Browserless, Playwright MCP, and SearXNG are included as supporting services.
 
 ## 🖥️ Requirements
 
-| Platform | Status |
-| --- | --- |
-| macOS on Apple Silicon with Docker Desktop | Validated |
-| Linux AMD64 with Docker Engine and Compose | Validated |
-| Linux ARM64 | Published images |
-| Windows and WSL2 | **Validation pending** |
+| Platform                                   | Status                 |
+| ------------------------------------------ | ---------------------- |
+| macOS on Apple Silicon with Docker Desktop | Validated              |
+| Linux AMD64 with Docker Engine and Compose | Validated              |
+| Linux ARM64                                | Published images       |
+| Windows and WSL2                           | **Validation pending** |
 
 OpenMission runs Ollama directly on the host so local models can use the host's
 GPU acceleration. The 30B coding model needs substantial memory. A practical
@@ -143,9 +147,9 @@ Docker builds and browser validation.
 
 OpenMission keeps its primary data beside the deployment:
 
-- `./workspace` contains generated applications, source, tests, and evidence.
-- `./data` contains the OpenMission SQLite database.
-- `openmission-hermes-data` is a Compose-managed Hermes runtime volume.
+* `./workspace` contains generated applications, source, tests, and evidence.
+* `./data` contains the OpenMission SQLite database.
+* `openmission-hermes-data` is a Compose-managed Hermes runtime volume.
 
 Check service health:
 
