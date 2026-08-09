@@ -67,7 +67,6 @@ flowchart LR
 ```
 
 ## ⚡ Get Started
-
 Install these prerequisites first:
 
 * [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
@@ -182,7 +181,7 @@ Deployment releases are immutable and match the Docker image version.
 To move to a newer tested release:
 
 ```bash
-NEW_VERSION=0.1.0-rc.8
+NEW_VERSION=0.1.0-rc.10
 
 git fetch --tags
 git switch --detach "v${NEW_VERSION}"
