@@ -79,10 +79,10 @@ ollama pull hermes3:8b
 ollama pull qwen3-coder:30b
 ```
 
-Clone the immutable RC8 deployment and start OpenMission:
+Clone the immutable RC11 deployment and start OpenMission:
 
 ```bash
-git clone https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.11 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -181,7 +181,7 @@ Deployment releases are immutable and match the Docker image version.
 To move to a newer tested release:
 
 ```bash
-NEW_VERSION=0.1.0-rc.10
+NEW_VERSION=0.1.0-rc.11
 
 git fetch --tags
 git switch --detach "v${NEW_VERSION}"
