@@ -24,14 +24,7 @@
 </p>
 
 <p align="center">
-  PMs stay focused on the business while OpenMission turns their ideas into
-  something developers can actually start from. Because it can use free local
-  AI, teams can explore, refine, and improve projects without paying more every
-  time the AI does more work.
-</p>
-
-<p align="center">
-  <strong>Better-prepared projects, fewer handoff gaps, and more freedom to iterate.</strong>
+  <strong>You define the business need. OpenMission turns it into a tested project developers can continue.</strong>
 </p>
 
 <p align="center">
@@ -46,16 +39,17 @@
 > releases.
 
 ## Why OpenMission?
-OpenMission turns a business idea into a reviewable Story, explicit acceptance
-criteria, generated application source, executable tests, and browser-validation
-evidence that developers can inspect and continue.
+
+* **Define:** Turn an idea into a reviewable Story and acceptance criteria.
+* **Build:** Generate working application source with local AI.
+* **Verify:** Test each criterion in a real browser and preserve the evidence.
+
+The result is a development-ready project with source, tests, and a clear
+handoff for developers.
 
 > OpenMission verifies observable application behavior against the acceptance
-> criteria defined for the project. It does not claim that generated software
-> is bug-free, secure, scalable, or production-ready. Developers remain
-> essential for architecture, integrations, security, operations, and
-> production readiness. OpenMission's objective is to bring them a project
-> substantially closer to execution.
+> criteria. It does not replace engineering review for architecture, security,
+> integrations, operations, or production readiness.
 
 ## Feedback
 
