@@ -36,11 +36,11 @@
 
 ## Why OpenMission?
 
-  ✅ **Business-first** — Turn your idea into a clear Story and acceptance criteria.
-  ✅ **Development-ready** — Generate working source and executable tests developers can continue.
-  ✅ **Browser-verified** — Validate each acceptance criterion through the visible application.
-  ✅ **Local AI** — Iterate without recurring per-token inference charges.
-  ✅ **Secure and portable** — Run isolated Docker services on supported macOS and Linux systems.
+✅ **Business-first** — Turn your idea into a clear Story and acceptance criteria.  
+✅ **Development-ready** — Generate working source and executable tests developers can continue.  
+✅ **Browser-verified** — Validate each acceptance criterion through the visible application.  
+✅ **Local AI** — Iterate without recurring per-token inference charges.  
+✅ **Secure and portable** — Run isolated Docker services on supported macOS and Linux systems.
 
 > OpenMission verifies observable application behavior against the acceptance
 > criteria. It does not replace engineering review for architecture, security,
