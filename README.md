@@ -41,11 +41,11 @@
 <div>✅ <strong>Browser-verified</strong> — Validate each acceptance criterion through the visible application.</div>
 <div>✅ <strong>Local AI</strong> — Iterate without recurring per-token inference charges.</div>
 <div>✅ <strong>Secure and portable</strong> — Run isolated Docker services on supported macOS and Linux systems.</div>
-
+<p>
 > OpenMission verifies observable application behavior against the acceptance
 > criteria. It does not replace engineering review for architecture, security,
 > integrations, operations, or production readiness.
-
+</p>
 ## Feedback
 
 > [!NOTE]
