@@ -41,6 +41,8 @@
 > Public application source and OpenMission Cloud are planned for future
 > releases.
 
+Trying OpenMission? [Share your experience or report a problem](https://github.com/CharlieKuharski/openmission-deploy/issues/new).
+
 ## Why OpenMission?
 OpenMission turns a business idea into a reviewable Story, explicit acceptance
 criteria, generated application source, executable tests, and browser-validation
@@ -94,6 +96,25 @@ The stack includes:
 * Browserless
 * Playwright MCP
 * SearXNG
+
+## Feedback
+
+OpenMission is a public technical preview, and direct feedback is valuable.
+Use [OpenMission Deploy GitHub Issues](https://github.com/CharlieKuharski/openmission-deploy/issues/new)
+to report:
+
+* bugs or unexpected behavior;
+* installation problems;
+* feature requests;
+* project-generation results;
+* whether the generated project improved the handoff to developers.
+
+Include the OpenMission version, operating system and hardware, selected
+Thinking and Coding models, expected behavior, actual behavior, and sanitized
+screenshots or logs when useful.
+
+Do not publish `.env` values, credentials, private prompts, confidential
+generated source, or other sensitive information in a public issue.
 
 ## 🖥️ Requirements
 
@@ -219,25 +240,6 @@ docker compose --env-file .env logs --tail 100 api ui hermes-gateway
 
 On macOS, keep this repository under a directory shared with Docker Desktop so
 generated project bind mounts are available to Docker.
-
-## Feedback
-
-OpenMission is a public technical preview, and direct feedback is valuable.
-Use [OpenMission Deploy GitHub Issues](https://github.com/CharlieKuharski/openmission-deploy/issues/new)
-to report:
-
-* bugs or unexpected behavior;
-* installation problems;
-* feature requests;
-* project-generation results;
-* whether the generated project improved the handoff to developers.
-
-Include the OpenMission version, operating system and hardware, selected
-Thinking and Coding models, expected behavior, actual behavior, and sanitized
-screenshots or logs when useful.
-
-Do not publish `.env` values, credentials, private prompts, confidential
-generated source, or other sensitive information in a public issue.
 
 ## 🚀 What's Next
 
