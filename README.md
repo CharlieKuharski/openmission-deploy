@@ -4,7 +4,7 @@
 
 <h1 align="center">OpenMission</h1>
 
-<h3 align="center">Built. Tested. Proven.</h3>
+<h3 align="center">OpenMission gives project managers a faster, lower-cost path from business idea to development-ready project.</h3>
 
 <p align="center">
   <a href="#why-openmission">Why OpenMission?</a> &bull;
@@ -23,27 +23,15 @@
 </p>
 
 <p align="center">
-  <strong>AI coding tools expect an engineer. OpenMission starts with your idea.</strong>
+  PMs stay focused on the business while OpenMission turns their ideas into
+  something developers can actually start from. Because it can use free local
+  AI, teams can explore, refine, and improve projects without paying more every
+  time the AI does more work.
 </p>
 
-<table align="center">
-  <tr>
-    <td>✅</td>
-    <td><strong>Built for project managers</strong> — Focus on the business. OpenMission handles the engineering.</td>
-  </tr>
-  <tr>
-    <td>✅</td>
-    <td><strong>Development-ready</strong> — Give your team a working, tested application they can build on.</td>
-  </tr>
-  <tr>
-    <td>✅</td>
-    <td><strong>Proven against requirements</strong> — Browser validation shows what passes and what doesn't.</td>
-  </tr>
-  <tr>
-    <td>✅</td>
-    <td><strong>Hardware, not frontier model bills</strong> — Run open models locally without metered API costs.</td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Better-prepared projects, fewer handoff gaps, and more freedom to iterate.</strong>
+</p>
 
 > **Early access:** This is the public, source-free Docker deployment for
 > OpenMission. It contains no OpenMission product source and performs no local
@@ -51,20 +39,16 @@
 > planned for future releases.
 
 ## Why OpenMission?
-<p align="center">
-  <strong>You define what should be built. OpenMission takes it from idea to validated application.</strong>
-</p>
+OpenMission turns a business idea into a reviewable Story, explicit acceptance
+criteria, generated application source, executable tests, and browser-validation
+evidence that developers can inspect and continue.
 
-Each project includes the generated application source, acceptance tests,
-screenshots, and validation evidence.
-```mermaid
-flowchart LR
-    A["💡 Idea"] --> B["📋 Story"]
-    B --> C["✅ Acceptance Criteria"]
-    C --> D["🛠️ Build"]
-    D --> E["🌐 Browser Test"]
-    E --> F["🚀 Team-Ready App"]
-```
+> OpenMission verifies observable application behavior against the acceptance
+> criteria defined for the project. It does not claim that generated software
+> is bug-free, secure, scalable, or production-ready. Developers remain
+> essential for architecture, integrations, security, operations, and
+> production readiness. OpenMission's objective is to bring them a project
+> substantially closer to execution.
 
 ## ⚡ Get Started
 Install these prerequisites first:
