@@ -27,10 +27,6 @@
   <strong>You define the business need. OpenMission turns it into a tested project developers can continue.</strong>
 </p>
 
-<p align="center">
-  ✅ <strong>Secure and portable by default</strong> — Docker isolates OpenMission services, binds them to localhost, and provides a consistent environment across supported macOS and Linux systems.
-</p>
-
 > **Public technical preview:** OpenMission is available to anyone for
 > experimentation and feedback. It is still evolving and is not recommended
 > for production use. This source-free Docker deployment contains no
@@ -40,12 +36,11 @@
 
 ## Why OpenMission?
 
-* **Define:** Turn an idea into a reviewable Story and acceptance criteria.
-* **Build:** Generate working application source with local AI.
-* **Verify:** Test each criterion in a real browser and preserve the evidence.
-
-The result is a development-ready project with source, tests, and a clear
-handoff for developers.
+* ✅ **Business-first** — Turn your idea into a clear Story and acceptance criteria.
+* ✅ **Development-ready** — Generate working source and executable tests developers can continue.
+* ✅ **Browser-verified** — Validate each acceptance criterion through the visible application.
+* ✅ **Local AI** — Iterate without recurring per-token inference charges.
+* ✅ **Secure and portable** — Run isolated Docker services on supported macOS and Linux systems.
 
 > OpenMission verifies observable application behavior against the acceptance
 > criteria. It does not replace engineering review for architecture, security,
