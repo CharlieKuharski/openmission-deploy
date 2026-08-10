@@ -34,14 +34,16 @@
   <strong>Better-prepared projects, fewer handoff gaps, and more freedom to iterate.</strong>
 </p>
 
+<p align="center">
+  ✅ <strong>Local-first security</strong> — Docker services bind to localhost by default, while models, projects, and validation evidence remain under your control on your machine.
+</p>
+
 > **Public technical preview:** OpenMission is available to anyone for
 > experimentation and feedback. It is still evolving and is not recommended
 > for production use. This source-free Docker deployment contains no
 > OpenMission product source and performs no local OpenMission image builds.
 > Public application source and OpenMission Cloud are planned for future
 > releases.
-
-Trying OpenMission? [Share your experience or report a problem](https://github.com/CharlieKuharski/openmission-deploy/issues/new).
 
 ## Why OpenMission?
 OpenMission turns a business idea into a reviewable Story, explicit acceptance
@@ -54,6 +56,25 @@ evidence that developers can inspect and continue.
 > essential for architecture, integrations, security, operations, and
 > production readiness. OpenMission's objective is to bring them a project
 > substantially closer to execution.
+
+## Feedback
+
+> [!NOTE]
+> **Trying OpenMission?** This public technical preview is available for
+> experimentation, and direct feedback is valuable.
+>
+> [Share your experience or report a problem](https://github.com/CharlieKuharski/openmission-deploy/issues/new).
+
+Feedback can cover bugs, installation problems, feature requests,
+project-generation results, or whether the generated project improved the
+handoff to developers.
+
+Include the OpenMission version, operating system and hardware, selected
+Thinking and Coding models, expected behavior, actual behavior, and sanitized
+screenshots or logs when useful.
+
+Do not publish `.env` values, credentials, private prompts, confidential
+generated source, or other sensitive information in a public issue.
 
 ## ⚡ Get Started
 Install these prerequisites first:
@@ -96,25 +117,6 @@ The stack includes:
 * Browserless
 * Playwright MCP
 * SearXNG
-
-## Feedback
-
-OpenMission is a public technical preview, and direct feedback is valuable.
-Use [OpenMission Deploy GitHub Issues](https://github.com/CharlieKuharski/openmission-deploy/issues/new)
-to report:
-
-* bugs or unexpected behavior;
-* installation problems;
-* feature requests;
-* project-generation results;
-* whether the generated project improved the handoff to developers.
-
-Include the OpenMission version, operating system and hardware, selected
-Thinking and Coding models, expected behavior, actual behavior, and sanitized
-screenshots or logs when useful.
-
-Do not publish `.env` values, credentials, private prompts, confidential
-generated source, or other sensitive information in a public issue.
 
 ## 🖥️ Requirements
 
