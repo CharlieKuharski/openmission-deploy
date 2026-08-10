@@ -11,11 +11,12 @@
   <a href="#-get-started">Get Started</a> &bull;
   <a href="#-requirements">Requirements</a> &bull;
   <a href="#-data-and-operations">Operations</a> &bull;
+  <a href="#feedback">Feedback</a> &bull;
   <a href="#-troubleshooting">Troubleshooting</a>
 </p>
 
 <p align="center">
-  <img alt="Early Access" src="https://img.shields.io/badge/status-early%20access-f59e0b">
+  <img alt="Public Technical Preview" src="https://img.shields.io/badge/status-public%20technical%20preview-f59e0b">
   <img alt="Docker Compose" src="https://img.shields.io/badge/runtime-Docker%20Compose-2496ed">
   <img alt="macOS validated" src="https://img.shields.io/badge/macOS-validated-34c759">
   <img alt="Linux AMD64 and ARM64" src="https://img.shields.io/badge/Linux-AMD64%20%7C%20ARM64-fcc624">
@@ -33,10 +34,12 @@
   <strong>Better-prepared projects, fewer handoff gaps, and more freedom to iterate.</strong>
 </p>
 
-> **Early access:** This is the public, source-free Docker deployment for
-> OpenMission. It contains no OpenMission product source and performs no local
-> OpenMission image builds. Public application source and OpenMission Cloud are
-> planned for future releases.
+> **Public technical preview:** OpenMission is available to anyone for
+> experimentation and feedback. It is still evolving and is not recommended
+> for production use. This source-free Docker deployment contains no
+> OpenMission product source and performs no local OpenMission image builds.
+> Public application source and OpenMission Cloud are planned for future
+> releases.
 
 ## Why OpenMission?
 OpenMission turns a business idea into a reviewable Story, explicit acceptance
@@ -216,6 +219,25 @@ docker compose --env-file .env logs --tail 100 api ui hermes-gateway
 
 On macOS, keep this repository under a directory shared with Docker Desktop so
 generated project bind mounts are available to Docker.
+
+## Feedback
+
+OpenMission is a public technical preview, and direct feedback is valuable.
+Use [OpenMission Deploy GitHub Issues](https://github.com/CharlieKuharski/openmission-deploy/issues/new)
+to report:
+
+* bugs or unexpected behavior;
+* installation problems;
+* feature requests;
+* project-generation results;
+* whether the generated project improved the handoff to developers.
+
+Include the OpenMission version, operating system and hardware, selected
+Thinking and Coding models, expected behavior, actual behavior, and sanitized
+screenshots or logs when useful.
+
+Do not publish `.env` values, credentials, private prompts, confidential
+generated source, or other sensitive information in a public issue.
 
 ## 🚀 What's Next
 
