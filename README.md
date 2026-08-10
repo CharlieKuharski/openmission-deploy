@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  ✅ <strong>Local-first security</strong> — Docker services bind to localhost by default, while models, projects, and validation evidence remain under your control on your machine.
+  ✅ <strong>Secure and portable by default</strong> — Docker isolates OpenMission services, binds them to localhost, and provides a consistent environment across supported macOS and Linux systems.
 </p>
 
 > **Public technical preview:** OpenMission is available to anyone for
