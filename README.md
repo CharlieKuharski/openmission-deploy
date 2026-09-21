@@ -78,10 +78,10 @@ ollama pull hermes3:8b
 ollama pull qwen3-coder:30b
 ```
 
-Clone the immutable RC11 deployment and start OpenMission:
+Clone the immutable RC14 deployment and start OpenMission:
 
 ```bash
-git clone --branch v0.1.0-rc.12 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.14 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -177,21 +177,44 @@ projects or OpenMission state.
 
 Deployment releases are immutable and match the Docker image version.
 
+RC14 includes project attachments with Story-time file inspection, inline Story
+editing, rejection and prompt replacement, session-selected goal judging,
+persisted developer test evidence, judge-blocked handoff, and configurable
+test-count-based attempt timeouts.
+
+Wait for active project and Chat runs to finish, and back up data before updating.
+Preserve your existing `.env`, including credentials and model settings; do not
+replace it with `.env.example`. Release startup preserves SQLite data.
+
 To move to a newer tested release:
 
 ```bash
-NEW_VERSION=0.1.0-rc.13
+NEW_VERSION=0.1.0-rc.14
 
 git fetch --tags
 git switch --detach "v${NEW_VERSION}"
-sed -i.bak "s/^OPENMISSION_VERSION=.*/OPENMISSION_VERSION=${NEW_VERSION}/" .env
-rm -f .env.bak
+sed -i "" "s/^OPENMISSION_VERSION=.*/OPENMISSION_VERSION=${NEW_VERSION}/" .env
 docker compose --env-file .env pull
 docker compose --env-file .env up -d --wait
 ```
 
 Set `NEW_VERSION` to the release you are installing and review its release
 notes before updating.
+
+The `sed` command above is for macOS. On Linux, use `sed -i` without the empty
+argument. No local image build is needed.
+
+Optional timeout settings in `.env`:
+
+```bash
+OPENMISSION_PROJECT_TIME_PER_AC=30m
+OPENMISSION_AC_TIME_PER_TEST=10m
+```
+
+The project deadline is the approved AC count multiplied by the project rate.
+Each implementation or repair attempt receives the current AC's discovered test
+count multiplied by the per-test rate, with a 30-minute minimum. The project
+deadline can still end an attempt sooner. Preserve any existing custom values.
 
 ## 🔒 Security
 
