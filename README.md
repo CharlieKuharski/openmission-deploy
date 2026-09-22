@@ -78,10 +78,10 @@ ollama pull hermes3:8b
 ollama pull qwen3-coder:30b
 ```
 
-Clone the immutable RC14 deployment and start OpenMission:
+Clone the immutable RC15 deployment and start OpenMission:
 
 ```bash
-git clone --branch v0.1.0-rc.14 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.15 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -177,7 +177,11 @@ projects or OpenMission state.
 
 Deployment releases are immutable and match the Docker image version.
 
-RC14 includes project attachments with Story-time file inspection, inline Story
+RC15 adds review of edited Stories before approval, with an explicit choice to
+accept the proposed Story or keep the saved draft. Persistent Story controls
+keep actions visible while scrolling and display proposals without a diff.
+
+It retains project attachments with Story-time file inspection, inline Story
 editing, rejection and prompt replacement, session-selected goal judging,
 persisted developer test evidence, judge-blocked handoff, and configurable
 test-count-based attempt timeouts.
@@ -189,7 +193,7 @@ replace it with `.env.example`. Release startup preserves SQLite data.
 To move to a newer tested release:
 
 ```bash
-NEW_VERSION=0.1.0-rc.14
+NEW_VERSION=0.1.0-rc.15
 
 git fetch --tags
 git switch --detach "v${NEW_VERSION}"
