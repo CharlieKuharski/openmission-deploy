@@ -105,7 +105,7 @@ services:
     restart: unless-stopped
 
   playwright-mcp:
-    image: mcr.microsoft.com/playwright/mcp@sha256:3d871c22ea2d4cca0966e2cfb1860e1cb03eb7353725a3d6cffd133296fb04eb
+    image: mcr.microsoft.com/playwright/mcp:v0.0.83@sha256:690763cbb437ee7233f538a953bb5390bf03791eb5c965b471e59d17a6132fcb
     command:
       - --headless
       - --browser
@@ -120,13 +120,13 @@ services:
     restart: unless-stopped
 
   searxng:
-    image: docker.io/searxng/searxng@sha256:ec536bcd1e83577aad4cc07f7ecb9a30858a9a905d2d57c8796abc83f872a036
+    image: docker.io/searxng/searxng@sha256:ad273460b12390ab1ad9c6ea630dafed39045ab0b9096a85ca31f5246517c670
     volumes:
       - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
     restart: unless-stopped
 
   browserless:
-    image: ghcr.io/browserless/chromium@sha256:07f6561d607b80312cc9b2500e98e40cf1eb0276fb647984fa074c96b9dd41dc
+    image: ghcr.io/browserless/chromium:v2.57.0@sha256:6bac628b3d8293f8fb251d3a6b63030dfc5a1cb0c7e5c39abe5efd8f4b25360b
     environment:
       TOKEN: ${BROWSERLESS_TOKEN:?BROWSERLESS_TOKEN is required}
       CONNECTION_TIMEOUT: "60000"

@@ -78,10 +78,10 @@ ollama pull hermes3:8b
 ollama pull qwen3-coder:30b
 ```
 
-Clone the immutable RC15 deployment and start OpenMission:
+Clone the immutable RC16 deployment and start OpenMission:
 
 ```bash
-git clone --branch v0.1.0-rc.15 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.16 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -175,16 +175,10 @@ projects or OpenMission state.
 
 ### Update
 
-Deployment releases are immutable and match the Docker image version.
-
-RC15 adds review of edited Stories before approval, with an explicit choice to
-accept the proposed Story or keep the saved draft. Persistent Story controls
-keep actions visible while scrolling and display proposals without a diff.
-
-It retains project attachments with Story-time file inspection, inline Story
-editing, rejection and prompt replacement, session-selected goal judging,
-persisted developer test evidence, judge-blocked handoff, and configurable
-test-count-based attempt timeouts.
+Deployment release `v0.1.0-rc.16` points to the Docker Hub build
+`sha-6a5a3e0fd75efe531ad2523951d46a4a4a73ae00` for API, UI, and Hermes.
+The deployment release tag and Docker image tag are intentionally distinct.
+This release also updates the pinned Playwright MCP, Browserless, and SearXNG images.
 
 Wait for active project and Chat runs to finish, and back up data before updating.
 Preserve your existing `.env`, including credentials and model settings; do not
@@ -193,17 +187,18 @@ replace it with `.env.example`. Release startup preserves SQLite data.
 To move to a newer tested release:
 
 ```bash
-NEW_VERSION=0.1.0-rc.15
+DEPLOY_RELEASE=v0.1.0-rc.16
+NEW_VERSION=sha-6a5a3e0fd75efe531ad2523951d46a4a4a73ae00
 
 git fetch --tags
-git switch --detach "v${NEW_VERSION}"
+git switch --detach "${DEPLOY_RELEASE}"
 sed -i "" "s/^OPENMISSION_VERSION=.*/OPENMISSION_VERSION=${NEW_VERSION}/" .env
 docker compose --env-file .env pull
 docker compose --env-file .env up -d --wait
 ```
 
-Set `NEW_VERSION` to the release you are installing and review its release
-notes before updating.
+Set `NEW_VERSION` to the published build or release you are installing.
+Use its matching deployment configuration and review the changes before updating.
 
 The `sed` command above is for macOS. On Linux, use `sed -i` without the empty
 argument. No local image build is needed.
