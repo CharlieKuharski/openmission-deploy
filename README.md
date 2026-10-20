@@ -78,10 +78,10 @@ ollama pull hermes3:8b
 ollama pull qwen3-coder:30b
 ```
 
-Clone the immutable RC17 deployment and start OpenMission:
+Clone the immutable RC18 deployment and start OpenMission:
 
 ```bash
-git clone --branch v0.1.0-rc.17 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.18 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -175,11 +175,12 @@ projects or OpenMission state.
 
 ### Update
 
-Deployment release `v0.1.0-rc.17` points to the Docker Hub build
-`sha-f0dbc5a4496289aa71a7af79c505e0e8c3faf234` for API, UI, and Hermes.
+Deployment release `v0.1.0-rc.18` points to the Docker Hub build
+`sha-98b279fbd92f5afdf5f09339aff7b0e5449a3786` for API, UI, and Hermes.
 The deployment release tag and Docker image tag are intentionally distinct.
-This release includes conversation logging and Hermes wait-target validation improvements.
-Pinned third-party dependency images are unchanged from rc.16.
+This release adds folder-path copying on the Code Base page with temporary button
+feedback and places acceptance summaries beneath their respective AC details.
+Pinned third-party dependency images are unchanged from rc.17.
 
 Wait for active project and Chat runs to finish, and back up data before updating.
 Preserve your existing `.env`, including credentials and model settings; do not
@@ -188,8 +189,8 @@ replace it with `.env.example`. Release startup preserves SQLite data.
 To move to a newer tested release:
 
 ```bash
-DEPLOY_RELEASE=v0.1.0-rc.17
-NEW_VERSION=sha-f0dbc5a4496289aa71a7af79c505e0e8c3faf234
+DEPLOY_RELEASE=v0.1.0-rc.18
+NEW_VERSION=sha-98b279fbd92f5afdf5f09339aff7b0e5449a3786
 
 git fetch --tags
 git switch --detach "${DEPLOY_RELEASE}"
