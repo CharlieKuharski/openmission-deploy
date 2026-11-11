@@ -63,7 +63,11 @@ OpenMission turns a business need into one connected, testable delivery chain:
 - [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
 - [Ollama](https://ollama.com/download)
 
-### 2. Pull the default local models
+### 2. Choose and pull models for your computer
+
+Use the [model recommendations by memory](#recommended-ollama-models-by-memory) below to choose a Thinking model and a Coding model. Start with `hermes3:8b` for Thinking, or consider `hermes3:3b` when memory is constrained. Coding options and alternatives are drawn from Ollama's published library, regardless of which models are already installed.
+
+For example, a Mac with **48 GB unified memory** can start with:
 
 ```bash
 ollama pull hermes3:8b
@@ -79,6 +83,19 @@ git clone --branch v0.1.0-rc.18 --depth 1 https://github.com/CharlieKuharski/ope
 
 cd openmission
 cp .env.example .env
+```
+
+Before starting, set the model names in `.env` to the models you chose. For the 48 GB example:
+
+```dotenv
+OPENMISSION_CHAT_MODEL=hermes3:8b
+OPENMISSION_CODE_GEN_MODEL=qwen3-coder:30b
+OPENMISSION_OLLAMA_MODEL=qwen3-coder:30b
+```
+
+Then start the deployment:
+
+```bash
 docker compose --env-file .env pull
 docker compose --env-file .env up -d --wait
 ```
@@ -118,7 +135,36 @@ The deployment includes:
 
 OpenMission runs Ollama directly on the host so local models can use the host's GPU acceleration.
 
-The default 30B coding model needs substantial memory. A practical reference system is:
+### Recommended Ollama models by memory
+
+These recommendations use the models and sizes published in [Ollama's library](https://ollama.com/library), checked **November 10, 2026**, rather than the models already installed on your computer. They consider task suitability and memory headroom for OpenMission.
+
+**Thinking:** Start with Hermes3 for requirements, user stories, and acceptance criteria. Use 3B on smaller machines and 8B where memory allows. [Hermes3](https://huggingface.co/NousResearch/Hermes-3-Llama-3.1-8B) supports instruction following, function calling, and structured output.
+
+**Coding:** Use Qwen3.5 on smaller machines, Qwen3-Coder 30B for dedicated agentic coding, and Qwen3-Coder-Next on larger machines.
+
+On Apple Silicon, use total unified memory to choose a row. With a discrete GPU, use **GPU VRAM** for model fit and reserve separate system RAM for the OS, Docker, builds, and browsers. Actual memory use varies with context length and the number of loaded models.
+
+| Unified memory / GPU VRAM tier | Thinking model | Coding model | Guidance |
+| --- | --- | --- | --- |
+| Below 16 GB | `hermes3:3b` | — | Lightweight planning; the complete local build workflow needs more headroom on a shared-memory machine. |
+| 16–23 GB | `hermes3:3b` | `qwen3.5:4b` | Compact pair for smaller projects. Load models sequentially to conserve memory. |
+| 24–31 GB | `hermes3:8b` | `qwen3.5:9b` | More capacity for planning and coding while leaving room for application services. |
+| 32–47 GB | `hermes3:8b` | `qwen3-coder:30b` | Dedicated coding model; load models sequentially and watch context memory. |
+| 48–63 GB | `hermes3:8b` | `qwen3-coder:30b` | Recommended starting pair for a 48 GB Mac. |
+| 64–95 GB | `hermes3:8b` | `qwen3-coder:30b` | Extra headroom for longer context, builds, and browsers. |
+| 96–127 GB | `hermes3:8b` | `qwen3-coder-next:q4_K_M` | Larger model designed for agentic coding. |
+| 128 GB and above | `hermes3:8b` | `qwen3-coder-next:q8_0` | Higher-precision coding model; use Q4 for more memory headroom. |
+
+Ollama lists approximate download sizes of **2.0 GB** for [Hermes3 3B](https://ollama.com/library/hermes3:3b), **4.7 GB** for [Hermes3 8B](https://ollama.com/library/hermes3:8b), **3.3–4 GB** for [Qwen3.5 4B](https://ollama.com/library/qwen3.5:4b), **6.6–7.6 GB** for [Qwen3.5 9B](https://ollama.com/library/qwen3.5:9b), **19 GB** for [Qwen3-Coder 30B](https://ollama.com/library/qwen3-coder), and **52 GB / 85 GB** for [Qwen3-Coder-Next Q4 / Q8](https://ollama.com/library/qwen3-coder-next). Runtime memory also includes context caches and buffers.
+
+For larger Thinking models, [Hermes3 70B](https://ollama.com/library/hermes3:70b) is an option with a roughly **40 GB** download. [Qwen3.5 9B and 27B](https://ollama.com/library/qwen3.5) are reasoning-capable alternatives. Allow room for the Coding model and context when choosing a larger Thinking model.
+
+On shared-memory computers, reserve roughly **8–12 GB** for the OS, Docker, builds, and browsers, with more for large applications. [Ollama recommends at least 64,000 context tokens for agents and coding tools](https://docs.ollama.com/context-length). Configure context in Ollama and use `ollama ps` during a run to check allocated context and GPU offloading. Longer context uses more memory; CPU offloading can slow generation.
+
+Pull each chosen model with `ollama pull <model>`. Before first startup, set `OPENMISSION_CHAT_MODEL` to the Thinking model, and both `OPENMISSION_CODE_GEN_MODEL` and `OPENMISSION_OLLAMA_MODEL` to the Coding model. In an existing deployment, select the global Thinking and Coding models in the Utility screen.
+
+A practical reference system for the 48 GB tier is:
 
 ```text
 Mac with Apple M4 Pro
@@ -128,7 +174,7 @@ Docker Desktop
 Ollama running on macOS
 ```
 
-Machines with less memory can use smaller models selected from the Utility screen. Model size affects generation quality, speed, and the memory available for Docker builds and browser validation.
+Model size affects generation quality, speed, and the memory available for Docker builds and browser validation. The deployment's packaged fallback values remain `hermes3:8b` for Thinking and `qwen3-coder:30b` for Coding; use the guide above to choose settings appropriate to your hardware.
 
 ## Feedback
 
