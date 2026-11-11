@@ -129,8 +129,7 @@ The deployment includes:
 | Platform | Status |
 | --- | --- |
 | macOS on Apple Silicon with Docker Desktop | Validated |
-| Linux AMD64 with Docker Engine and Compose | Validated |
-| Linux ARM64 | Published images |
+| Linux AMD64 with Docker Engine and Compose | **Validation pending**  |
 | Windows and WSL2 | **Validation pending** |
 
 OpenMission runs Ollama directly on the host so local models can use the host's GPU acceleration.
