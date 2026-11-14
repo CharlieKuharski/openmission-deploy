@@ -79,7 +79,7 @@ ollama pull qwen3-coder:30b
 Clone the immutable RC18 deployment:
 
 ```bash
-git clone --branch v0.1.0-rc.18 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.19 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -239,13 +239,14 @@ tar -czf "openmission-backup-$(date +%Y%m%d).tar.gz" workspace data
 
 ## Update OpenMission
 
-Deployment release `v0.1.0-rc.18` points to Docker Hub build `sha-98b279fbd92f5afdf5f09339aff7b0e5449a3786` for the API, UI, and Hermes images.
+Deployment release `v0.1.0-rc.19` points to Docker Hub build `sha-9e1d581728c454be3e3f8653393c9acfe5f6b9bf` for the API, UI, and Hermes images.
 
 The deployment release tag and Docker image tag are intentionally distinct. This release:
 
-- Adds folder-path copying on the Code Base page with temporary button feedback
-- Places Acceptance Criteria summaries beneath their respective AC details
-- Retains the pinned third-party dependency images from RC17
+- Refreshes the interface with a simpler layout and light/dark themes
+- Adds OpenMission and project security reports with severity filtering
+- Adds bounded, agent-driven project security fixes with runtime redeployment
+- Retains database preservation and the existing pinned service dependencies
 
 Before updating:
 
@@ -259,8 +260,8 @@ Release startup preserves SQLite data.
 To move to a newer tested release:
 
 ```bash
-DEPLOY_RELEASE=v0.1.0-rc.18
-NEW_VERSION=sha-98b279fbd92f5afdf5f09339aff7b0e5449a3786
+DEPLOY_RELEASE=v0.1.0-rc.19
+NEW_VERSION=sha-9e1d581728c454be3e3f8653393c9acfe5f6b9bf
 
 git fetch --tags
 git switch --detach "${DEPLOY_RELEASE}"
