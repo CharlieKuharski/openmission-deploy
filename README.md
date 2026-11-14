@@ -76,7 +76,7 @@ ollama pull qwen3-coder:30b
 
 ### 3. Download and start OpenMission
 
-Clone the immutable RC18 deployment:
+Clone the immutable RC19 deployment:
 
 ```bash
 git clone --branch v0.1.0-rc.19 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
