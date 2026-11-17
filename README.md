@@ -92,10 +92,10 @@ ollama pull qwen3-coder:30b
 
 ### 3. Download and start OpenMission
 
-Clone the immutable RC20 deployment:
+Clone the immutable RC21 deployment:
 
 ```bash
-git clone --branch v0.1.0-rc.20 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.21 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -109,10 +109,19 @@ OPENMISSION_CODE_GEN_MODEL=qwen3-coder:30b
 OPENMISSION_OLLAMA_MODEL=qwen3-coder:30b
 ```
 
-Then start the deployment:
+On Linux, set the Docker socket group in the shell used for Compose (or save the numeric value as `OPENMISSION_DOCKER_GID` in `.env`):
+
+```bash
+export OPENMISSION_DOCKER_GID="$(stat -c '%g' /var/run/docker.sock)"
+```
+
+Docker Desktop for Mac uses the default group `0`; do not run the Linux command on macOS.
+
+For a fresh installation, prepare storage and start the deployment:
 
 ```bash
 docker compose --env-file .env pull
+docker compose --env-file .env run --rm --no-deps --user 0 api /app/openmission-api prepare-runtime
 docker compose --env-file .env up -d --wait
 ```
 
@@ -257,37 +266,39 @@ tar -czf "openmission-backup-$(date +%Y%m%d).tar.gz" workspace data
 
 ## Update OpenMission
 
-Deployment release `v0.1.0-rc.20` points to Docker Hub build `sha-13c5fb220b905b4f81bdad44d0fa7f186769bf6b` for the API, UI, and Hermes images.
+Deployment release `v0.1.0-rc.21` points to Docker Hub build `sha-e189bfb41b9d93e75b79eadfe9e76b3b457e7a73` for the API, UI, and Hermes images.
 
 The deployment release tag and Docker image tag are intentionally distinct. This release:
 
-- Adds project tabs with clearer build and task progress, application controls, and project-scoped thinking and coding model settings
-- Loads data for the selected project and tab on demand
-- Improves story formatting and project security indicators
-- Enforces single-worker acceptance testing and prevents test artifacts from triggering development-server reloads
-- Distinguishes incomplete acceptance verification from build/runtime failures
-- Retains database preservation and the existing pinned service dependencies
+- Runs the API as non-root UID 10000, with explicit storage preparation and Docker socket group access
+- Includes upstream security updates and project security repair improvements
+- Moves OM Security into Classic and improves project activity indicators
+- Preserves database records across restarts
+- Uses images verified by native AMD64 and ARM64 release smoke tests
 
 Before updating:
 
-1. Wait for active project and Chat runs to finish.
-2. Back up your data.
+1. Wait for builds, tasks, Chat runs, and security repairs to finish; stop generated applications.
+2. Stop OpenMission with `docker compose --env-file .env down`, then back up `data` and `workspace`. Keep the Hermes volume.
 3. Preserve your existing `.env`, including credentials and model settings.
 4. Do not replace `.env` with `.env.example`.
 
-Release startup preserves SQLite data.
+Release startup preserves SQLite data. This release requires a one-time `prepare-runtime` command to make existing storage writable by the non-root API. Keep all workspace writers stopped during preparation. It changes ownership and permissions, not project or database contents. Skipped links or special files are reported for review.
+
+On Linux, set `OPENMISSION_DOCKER_GID` as shown in the installation steps before running the update commands. Preserve custom `HERMES_GID` settings.
 
 To move to a newer tested release:
 
 ```bash
-DEPLOY_RELEASE=v0.1.0-rc.20
-NEW_VERSION=sha-13c5fb220b905b4f81bdad44d0fa7f186769bf6b
+DEPLOY_RELEASE=v0.1.0-rc.21
+NEW_VERSION=sha-e189bfb41b9d93e75b79eadfe9e76b3b457e7a73
 
 git fetch --tags
 git switch --detach "${DEPLOY_RELEASE}"
 sed -i "" "s/^OPENMISSION_VERSION=.*/OPENMISSION_VERSION=${NEW_VERSION}/" .env
 docker compose --env-file .env pull
-docker compose --env-file .env up -d --wait
+docker compose --env-file .env run --rm --no-deps --user 0 api /app/openmission-api prepare-runtime
+docker compose --env-file .env up -d --wait --force-recreate
 ```
 
 Set `NEW_VERSION` to the published build or release you are installing. Use its matching deployment configuration and review the changes before updating.
