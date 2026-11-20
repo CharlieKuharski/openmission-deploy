@@ -58,87 +58,11 @@ OpenMission turns a business need into one connected, testable delivery chain:
 
 ## ⚡ Get Started
 
-### 1. Install the prerequisites
+Choose the guide for your operating system.
 
-- [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
-- [Ollama](https://ollama.com/download)
-
-#### Fresh macOS installation (Apple Silicon)
-
-1. Install [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/), choosing the Apple Silicon download. Move Docker to Applications, open it, complete the first-run setup, and wait for the Docker engine to start. Docker Desktop includes Docker Compose.
-2. Install [Ollama for macOS](https://docs.ollama.com/macos), move it to Applications, and open it. Complete its command-line setup so `ollama` is available in Terminal. Keep Ollama running directly on macOS so it can use the Mac's GPU.
-3. Open a new Terminal window and check both prerequisites:
-
-```bash
-docker version
-docker compose version
-curl --fail --show-error http://127.0.0.1:11434/api/tags
-```
-
-`docker version` must show both Client and Server information. The Ollama check must return JSON; an empty model list is normal before the next step. If a command is missing, finish the application's command-line setup and reopen Terminal. If a connection fails, open the corresponding application and wait for it to finish starting.
-
-Docker and Ollama must stay running while you use OpenMission. Compose starts the OpenMission services; it does not install or launch these Mac applications. Keep the supplied `OPENMISSION_OLLAMA_BASE_URL=http://host.docker.internal:11434/v1` for this setup: [Docker Desktop provides that hostname](https://docs.docker.com/desktop/features/networking/networking-how-tos/#connect-a-container-to-a-service-on-the-host) so containers can reach Ollama on your Mac. No Ollama installation-folder or model-storage path is needed in Compose.
-
-### 2. Choose and pull models for your computer
-
-Use the [model recommendations by memory](#recommended-ollama-models-by-memory) below to choose a Thinking model and a Coding model. Start with `hermes3:8b` for Thinking, or consider `hermes3:3b` when memory is constrained. Coding options and alternatives are drawn from Ollama's published library, regardless of which models are already installed.
-
-For example, a Mac with **48 GB unified memory** can start with:
-
-```bash
-ollama pull hermes3:8b
-ollama pull qwen3-coder:30b
-```
-
-### 3. Download and start OpenMission
-
-Clone the immutable RC21 deployment:
-
-```bash
-git clone --branch v0.1.0-rc.22 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
-
-cd openmission
-cp .env.example .env
-```
-
-Before starting, set the model names in `.env` to the models you chose. For the 48 GB example:
-
-```dotenv
-OPENMISSION_CHAT_MODEL=hermes3:8b
-OPENMISSION_CODE_GEN_MODEL=qwen3-coder:30b
-OPENMISSION_OLLAMA_MODEL=qwen3-coder:30b
-```
-
-On Linux, set the Docker socket group in the shell used for Compose (or save the numeric value as `OPENMISSION_DOCKER_GID` in `.env`):
-
-```bash
-export OPENMISSION_DOCKER_GID="$(stat -c '%g' /var/run/docker.sock)"
-```
-
-Docker Desktop for Mac uses the default group `0`; do not run the Linux command on macOS.
-
-For a fresh installation, prepare storage and start the deployment:
-
-```bash
-docker compose --env-file .env pull
-docker compose --env-file .env run --rm --no-deps --user 0 api /app/openmission-api prepare-runtime
-docker compose --env-file .env up -d --wait
-```
-
-On a fresh Mac, run the [container connection checks](#macos-check-docker-and-ollama-from-the-containers) below before building your first project. Container health alone does not verify access to Ollama or the Docker engine used for generated applications.
-
-### 4. Open OpenMission
-
-Visit [http://127.0.0.1:15173](http://127.0.0.1:15173).
-
-On first startup, OpenMission opens the Utility screen. Use it to:
-
-- Verify the Ollama connection
-- Pull additional models by name
-- Choose the global Thinking model
-- Choose the global Coding model
-
-Docker Compose pulls and starts the complete configured stack. No OpenMission source checkout or local image build is required.
+- [Install on macOS](docs/install/macos.md) — recommended and validated on Apple Silicon.
+- [Install on Linux](docs/install/linux.md) — includes host Ollama setup and Docker socket access.
+- [Windows and WSL2 installation status](docs/install/windows.md) — under evaluation.
 
 ## 🧩 Included Services
 
@@ -155,9 +79,9 @@ The deployment includes:
 
 | Platform | Status |
 | --- | --- |
-| macOS on Apple Silicon with Docker Desktop | Validated |
+| macOS on Apple Silicon with Docker Desktop | Recommended and validated |
 | Linux AMD64 with Docker Engine and Compose | **Validation pending**  |
-| Windows and WSL2 | **Validation pending** |
+| Windows and WSL2 | **Under evaluation** |
 
 OpenMission runs Ollama directly on the host so local models can use the host's GPU acceleration.
 
@@ -283,7 +207,7 @@ Before updating:
 
 Release startup preserves SQLite data. This release requires a one-time `prepare-runtime` command to make existing storage writable by the non-root API. Keep all workspace writers stopped during preparation. It changes ownership and permissions, not project or database contents. Skipped links or special files are reported for review.
 
-On Linux, set `OPENMISSION_DOCKER_GID` as shown in the installation steps before running the update commands. Preserve custom `HERMES_GID` settings.
+On Linux, set `OPENMISSION_DOCKER_GID` as shown in the [Linux installation guide](docs/install/linux.md#4-download-the-release-and-configure-socket-access) before running the update commands. Preserve custom `HERMES_GID` settings.
 
 To move to a newer tested release:
 
