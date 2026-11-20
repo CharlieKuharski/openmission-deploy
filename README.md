@@ -95,7 +95,7 @@ ollama pull qwen3-coder:30b
 Clone the immutable RC21 deployment:
 
 ```bash
-git clone --branch v0.1.0-rc.21 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.22 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -266,15 +266,13 @@ tar -czf "openmission-backup-$(date +%Y%m%d).tar.gz" workspace data
 
 ## Update OpenMission
 
-Deployment release `v0.1.0-rc.21` points to Docker Hub build `sha-e189bfb41b9d93e75b79eadfe9e76b3b457e7a73` for the API, UI, and Hermes images.
+Deployment release `v0.1.0-rc.22` points to Docker Hub build `sha-b12c24cd401dd847dcce6753fe7cec9952b1ccec` for the API, UI, and Hermes images.
 
-The deployment release tag and Docker image tag are intentionally distinct. This release:
+The deployment tag selects the installer. The three images use the matching OpenMission source revision.
 
-- Runs the API as non-root UID 10000, with explicit storage preparation and Docker socket group access
-- Includes upstream security updates and project security repair improvements
-- Moves OM Security into Classic and improves project activity indicators
-- Preserves database records across restarts
-- Uses images verified by native AMD64 and ARM64 release smoke tests
+- Main builds started with RC22 can pause and resume at the interrupted acceptance criterion in the same workspace. Completed criteria retain their results and evidence.
+- Main runs final regression over the criteria that passed and the factory tests. If no criteria pass, OpenMission skips final regression and reports the failed criteria.
+- Task runs have a visible final regression step for that Task’s criteria.
 
 Before updating:
 
@@ -290,8 +288,8 @@ On Linux, set `OPENMISSION_DOCKER_GID` as shown in the installation steps before
 To move to a newer tested release:
 
 ```bash
-DEPLOY_RELEASE=v0.1.0-rc.21
-NEW_VERSION=sha-e189bfb41b9d93e75b79eadfe9e76b3b457e7a73
+DEPLOY_RELEASE=v0.1.0-rc.22
+NEW_VERSION=sha-b12c24cd401dd847dcce6753fe7cec9952b1ccec
 
 git fetch --tags
 git switch --detach "${DEPLOY_RELEASE}"
