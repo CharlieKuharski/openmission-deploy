@@ -2,7 +2,11 @@ name: openmission
 
 services:
   api:
+    stop_grace_period: 35s
     image: ${DOCKERHUB_NAMESPACE:-charliekuharski}/openmission:${OPENMISSION_VERSION:?OPENMISSION_VERSION is required}
+    group_add:
+      - "${OPENMISSION_DOCKER_GID:-0}"
+      - "${HERMES_GID:-10000}"
     ports:
       - "127.0.0.1:${OPENMISSION_API_PORT:-18080}:8080"
     volumes:
@@ -89,10 +93,12 @@ services:
     command: ["gateway", "run"]
     healthcheck:
       test:
-        - CMD
-        - /opt/hermes/.venv/bin/python
-        - -c
-        - "import socket; s=socket.create_connection(('127.0.0.1',8642),2); s.close()"
+        [
+          "CMD",
+          "/opt/hermes/.venv/bin/python",
+          "-c",
+          "import socket; s=socket.create_connection(('127.0.0.1',8642),2); s.close()",
+        ]
       interval: 10s
       timeout: 3s
       start_period: 20s

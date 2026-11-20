@@ -63,6 +63,22 @@ OpenMission turns a business need into one connected, testable delivery chain:
 - [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
 - [Ollama](https://ollama.com/download)
 
+#### Fresh macOS installation (Apple Silicon)
+
+1. Install [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/), choosing the Apple Silicon download. Move Docker to Applications, open it, complete the first-run setup, and wait for the Docker engine to start. Docker Desktop includes Docker Compose.
+2. Install [Ollama for macOS](https://docs.ollama.com/macos), move it to Applications, and open it. Complete its command-line setup so `ollama` is available in Terminal. Keep Ollama running directly on macOS so it can use the Mac's GPU.
+3. Open a new Terminal window and check both prerequisites:
+
+```bash
+docker version
+docker compose version
+curl --fail --show-error http://127.0.0.1:11434/api/tags
+```
+
+`docker version` must show both Client and Server information. The Ollama check must return JSON; an empty model list is normal before the next step. If a command is missing, finish the application's command-line setup and reopen Terminal. If a connection fails, open the corresponding application and wait for it to finish starting.
+
+Docker and Ollama must stay running while you use OpenMission. Compose starts the OpenMission services; it does not install or launch these Mac applications. Keep the supplied `OPENMISSION_OLLAMA_BASE_URL=http://host.docker.internal:11434/v1` for this setup: [Docker Desktop provides that hostname](https://docs.docker.com/desktop/features/networking/networking-how-tos/#connect-a-container-to-a-service-on-the-host) so containers can reach Ollama on your Mac. No Ollama installation-folder or model-storage path is needed in Compose.
+
 ### 2. Choose and pull models for your computer
 
 Use the [model recommendations by memory](#recommended-ollama-models-by-memory) below to choose a Thinking model and a Coding model. Start with `hermes3:8b` for Thinking, or consider `hermes3:3b` when memory is constrained. Coding options and alternatives are drawn from Ollama's published library, regardless of which models are already installed.
@@ -76,10 +92,10 @@ ollama pull qwen3-coder:30b
 
 ### 3. Download and start OpenMission
 
-Clone the immutable RC20 deployment:
+Clone the immutable RC21 deployment:
 
 ```bash
-git clone --branch v0.1.0-rc.20 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.22 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -93,12 +109,23 @@ OPENMISSION_CODE_GEN_MODEL=qwen3-coder:30b
 OPENMISSION_OLLAMA_MODEL=qwen3-coder:30b
 ```
 
-Then start the deployment:
+On Linux, set the Docker socket group in the shell used for Compose (or save the numeric value as `OPENMISSION_DOCKER_GID` in `.env`):
+
+```bash
+export OPENMISSION_DOCKER_GID="$(stat -c '%g' /var/run/docker.sock)"
+```
+
+Docker Desktop for Mac uses the default group `0`; do not run the Linux command on macOS.
+
+For a fresh installation, prepare storage and start the deployment:
 
 ```bash
 docker compose --env-file .env pull
+docker compose --env-file .env run --rm --no-deps --user 0 api /app/openmission-api prepare-runtime
 docker compose --env-file .env up -d --wait
 ```
+
+On a fresh Mac, run the [container connection checks](#macos-check-docker-and-ollama-from-the-containers) below before building your first project. Container health alone does not verify access to Ollama or the Docker engine used for generated applications.
 
 ### 4. Open OpenMission
 
@@ -239,37 +266,37 @@ tar -czf "openmission-backup-$(date +%Y%m%d).tar.gz" workspace data
 
 ## Update OpenMission
 
-Deployment release `v0.1.0-rc.20` points to Docker Hub build `sha-13c5fb220b905b4f81bdad44d0fa7f186769bf6b` for the API, UI, and Hermes images.
+Deployment release `v0.1.0-rc.22` points to Docker Hub build `sha-b12c24cd401dd847dcce6753fe7cec9952b1ccec` for the API, UI, and Hermes images.
 
-The deployment release tag and Docker image tag are intentionally distinct. This release:
+The deployment tag selects the installer. The three images use the matching OpenMission source revision.
 
-- Adds project tabs with clearer build and task progress, application controls, and project-scoped thinking and coding model settings
-- Loads data for the selected project and tab on demand
-- Improves story formatting and project security indicators
-- Enforces single-worker acceptance testing and prevents test artifacts from triggering development-server reloads
-- Distinguishes incomplete acceptance verification from build/runtime failures
-- Retains database preservation and the existing pinned service dependencies
+- Main builds started with RC22 can pause and resume at the interrupted acceptance criterion in the same workspace. Completed criteria retain their results and evidence.
+- Main runs final regression over the criteria that passed and the factory tests. If no criteria pass, OpenMission skips final regression and reports the failed criteria.
+- Task runs have a visible final regression step for that Task’s criteria.
 
 Before updating:
 
-1. Wait for active project and Chat runs to finish.
-2. Back up your data.
+1. Wait for builds, tasks, Chat runs, and security repairs to finish; stop generated applications.
+2. Stop OpenMission with `docker compose --env-file .env down`, then back up `data` and `workspace`. Keep the Hermes volume.
 3. Preserve your existing `.env`, including credentials and model settings.
 4. Do not replace `.env` with `.env.example`.
 
-Release startup preserves SQLite data.
+Release startup preserves SQLite data. This release requires a one-time `prepare-runtime` command to make existing storage writable by the non-root API. Keep all workspace writers stopped during preparation. It changes ownership and permissions, not project or database contents. Skipped links or special files are reported for review.
+
+On Linux, set `OPENMISSION_DOCKER_GID` as shown in the installation steps before running the update commands. Preserve custom `HERMES_GID` settings.
 
 To move to a newer tested release:
 
 ```bash
-DEPLOY_RELEASE=v0.1.0-rc.20
-NEW_VERSION=sha-13c5fb220b905b4f81bdad44d0fa7f186769bf6b
+DEPLOY_RELEASE=v0.1.0-rc.22
+NEW_VERSION=sha-b12c24cd401dd847dcce6753fe7cec9952b1ccec
 
 git fetch --tags
 git switch --detach "${DEPLOY_RELEASE}"
 sed -i "" "s/^OPENMISSION_VERSION=.*/OPENMISSION_VERSION=${NEW_VERSION}/" .env
 docker compose --env-file .env pull
-docker compose --env-file .env up -d --wait
+docker compose --env-file .env run --rm --no-deps --user 0 api /app/openmission-api prepare-runtime
+docker compose --env-file .env up -d --wait --force-recreate
 ```
 
 Set `NEW_VERSION` to the published build or release you are installing. Use its matching deployment configuration and review the changes before updating.
@@ -309,6 +336,20 @@ Run OpenMission only on a machine and with container images you trust.
 ollama list
 curl -f http://127.0.0.1:11434/api/tags
 ```
+
+### macOS: check Docker and Ollama from the containers
+
+After starting OpenMission, run these from the deployment directory. The Docker checks should print a server version, the API's Ollama check should exit successfully, and the Hermes check should print `Ollama reachable from Hermes`.
+
+```bash
+docker compose --env-file .env exec -T api docker info --format '{{.ServerVersion}}'
+docker compose --env-file .env exec -T --user hermes hermes-gateway docker info --format '{{.ServerVersion}}'
+docker compose --env-file .env exec -T api wget -q -T 10 -O /dev/null http://host.docker.internal:11434/api/tags
+docker compose --env-file .env exec -T --user hermes hermes-gateway /opt/hermes/.venv/bin/python -c \
+  'import urllib.request; urllib.request.urlopen("http://host.docker.internal:11434/api/tags", timeout=10).close(); print("Ollama reachable from Hermes")'
+```
+
+If Docker access fails, confirm Docker Desktop is running and `docker context show` reports `desktop-linux` for this setup. If Ollama access fails, confirm the Ollama app is running and the host check above succeeds. These commands check the supplied Mac defaults; `localhost` inside a container refers to that container, not your Mac.
 
 ### Inspect service status and recent logs
 
