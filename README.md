@@ -58,6 +58,18 @@ OpenMission turns a business need into one connected, testable delivery chain:
 
 ## ⚡ Get Started
 
+### Install on an Apple Silicon Mac with the DMG
+
+1. **[Download OpenMission for Mac (Apple Silicon)](https://github.com/CharlieKuharski/openmission-deploy/raw/refs/heads/dmg/macos/OpenMission.dmg)**. Open the disk image, drag **OpenMission** to **Applications**, then open it. The launcher requires macOS 14 or later.
+2. If prompted, select **Install Docker Desktop** or **Install Ollama**. Finish the vendor installer and open the app. Docker runs OpenMission’s services. Ollama runs the models on your Mac.
+3. Review the **Thinking** and **Coding** models and their approximate download sizes. Choose **Download and use** to start the services and pull any missing models. OpenMission opens in your browser when setup finishes.
+
+On 16–23 GB Macs, the launcher suggests `qwen3.5:4b` for both roles. On 24–31 GB Macs, it suggests `qwen3.5:9b` for both. A shared model downloads once. At 32 GB and up, it suggests the dedicated pairs in the [memory table](#recommended-ollama-models-by-memory). Below 16 GB, it suggests `hermes3:3b` for Thinking and asks you to choose a Coding model. You can enter different Ollama tags during setup or change models later in **Utility**.
+
+Opening the launcher again takes you to your running installation. It offers to restart services for a stopped installation it created. Its projects and settings are stored under `~/Library/Application Support/OpenMission/`.
+
+The DMG is an ad-hoc-signed test build. [Build or verify the disk image](macos/README.md). For a terminal installation, follow the steps below.
+
 ### 1. Install the prerequisites
 
 - [Docker with Docker Compose](https://docs.docker.com/get-started/get-docker/)
