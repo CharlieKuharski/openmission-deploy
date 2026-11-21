@@ -60,7 +60,7 @@ OpenMission turns a business need into one connected, testable delivery chain:
 
 ### Install on an Apple Silicon Mac with the DMG
 
-1. **[Download OpenMission for Mac (Apple Silicon)](https://github.com/CharlieKuharski/openmission-deploy/raw/refs/heads/dmg/macos/OpenMission.dmg)**. Open the disk image, drag **OpenMission** to **Applications**, then open it. The launcher requires macOS 14 or later.
+1. **[Download OpenMission for Mac (Apple Silicon)](https://raw.githubusercontent.com/CharlieKuharski/openmission-deploy/main/macos/OpenMission.dmg)**. Open the disk image, drag **OpenMission** to **Applications**, then open it. The launcher requires macOS 14 or later.
 2. If prompted, select **Install Docker Desktop** or **Install Ollama**. Finish the vendor installer and open the app. Docker runs OpenMission’s services. Ollama runs the models on your Mac.
 3. Review the **Thinking** and **Coding** models and their approximate download sizes. Choose **Download and use** to start the services and pull any missing models. OpenMission opens in your browser when setup finishes.
 
