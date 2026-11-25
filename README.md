@@ -60,7 +60,7 @@ OpenMission turns a business need into one connected, testable delivery chain:
 
 ### Install on an Apple Silicon Mac with the DMG
 
-1. **[Download OpenMission for Mac (Apple Silicon)](https://github.com/CharlieKuharski/openmission-deploy/raw/refs/heads/main/macos/OpenMission.dmg)**. Open the disk image, drag **OpenMission** to **Applications**, then open it. The launcher requires macOS 14 or later.
+1. **[Download OpenMission for Mac (Apple Silicon)](https://github.com/CharlieKuharski/openmission-deploy/raw/refs/tags/v0.1.0-rc.23/macos/OpenMission.dmg)**. Open the disk image, drag **OpenMission** to **Applications**, then open it. The launcher requires macOS 14 or later.
 2. If prompted, select **Install Docker Desktop** or **Install Ollama**. Finish the vendor installer and open the app. Docker runs OpenMission’s services. Ollama runs the models on your Mac.
 3. Review the **Thinking** and **Coding** models and their approximate download sizes. Choose **Download and use** to start the services and pull any missing models. OpenMission opens in your browser when setup finishes.
 
@@ -107,7 +107,7 @@ ollama pull qwen3-coder:30b
 Clone the immutable RC21 deployment:
 
 ```bash
-git clone --branch v0.1.0-rc.22 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
+git clone --branch v0.1.0-rc.23 --depth 1 https://github.com/CharlieKuharski/openmission-deploy.git openmission
 
 cd openmission
 cp .env.example .env
@@ -278,7 +278,7 @@ tar -czf "openmission-backup-$(date +%Y%m%d).tar.gz" workspace data
 
 ## Update OpenMission
 
-Deployment release `v0.1.0-rc.22` points to Docker Hub build `sha-b12c24cd401dd847dcce6753fe7cec9952b1ccec` for the API, UI, and Hermes images.
+Deployment release `v0.1.0-rc.23` points to Docker Hub build `sha-871e3ec189a67e66abc8e99065da8a2563b2a4e4` for the API, UI, and Hermes images.
 
 The deployment tag selects the installer. The three images use the matching OpenMission source revision.
 
@@ -300,8 +300,8 @@ On Linux, set `OPENMISSION_DOCKER_GID` as shown in the installation steps before
 To move to a newer tested release:
 
 ```bash
-DEPLOY_RELEASE=v0.1.0-rc.22
-NEW_VERSION=sha-b12c24cd401dd847dcce6753fe7cec9952b1ccec
+DEPLOY_RELEASE=v0.1.0-rc.23
+NEW_VERSION=sha-871e3ec189a67e66abc8e99065da8a2563b2a4e4
 
 git fetch --tags
 git switch --detach "${DEPLOY_RELEASE}"
